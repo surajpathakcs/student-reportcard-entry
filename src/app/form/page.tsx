@@ -1,5 +1,4 @@
 "use client";
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
 import { toast } from "react-toastify"; // make sure this is imported
 
