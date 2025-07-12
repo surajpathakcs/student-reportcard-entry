@@ -44,11 +44,11 @@ const FormPage = () => {
     const { name, value } = e.target;
     const updated = [...subjects];
     updated[index] = {
-      ...updated[index],
-      [name]: name === "CreditHours" || name === "GradePoint" ? Number(value) : value,
+        ...updated[index],
+        [name]: name === "CreditHours" || name === "GradePoint" ? parseFloat(value) || 0 : value,
     };
-    setSubjects(updated);
-  };
+  setSubjects(updated);
+};
 
   const addSubject = () => setSubjects([...subjects, emptySubject()]);
 
@@ -61,13 +61,13 @@ const FormPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const payload = {
-      ...student,
-      RegNo: Number(student.RegNo),
-      AcademicYear: Number(student.AcademicYear),
-      TotalCreditHour: Number(student.TotalCreditHour),
-      SGPA: Number(student.SGPA),
-      Subject: subjects,
-    };
+        ...student,
+        RegNo: parseInt(student.RegNo) || 0,
+        AcademicYear: parseInt(student.AcademicYear) || 0,
+        TotalCreditHour: parseFloat(student.TotalCreditHour) || 0,
+        SGPA: parseFloat(student.SGPA) || 0,
+        Subject: subjects,
+    };  
 
     const res = await fetch("/api/form", {
       method: "POST",
