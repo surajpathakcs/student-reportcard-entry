@@ -1,6 +1,7 @@
 "use client";
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState } from "react";
+import { toast } from "react-toastify"; // make sure this is imported
 
 interface Subject {
   Code: string;
@@ -59,16 +60,20 @@ const FormPage = () => {
     setSubjects(updated);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    const payload = {
-        ...student,
-        RegNo: parseInt(student.RegNo) || 0,
-        AcademicYear: parseInt(student.AcademicYear) || 0,
-        TotalCreditHour: parseFloat(student.TotalCreditHour) || 0,
-        SGPA: parseFloat(student.SGPA) || 0,
-        Subject: subjects,
-    };  
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  const payload = {
+    ...student,
+    RegNo: parseInt(student.RegNo) || 0,
+    AcademicYear: parseInt(student.AcademicYear) || 0,
+    TotalCreditHour: parseFloat(student.TotalCreditHour) || 0,
+    SGPA: parseFloat(student.SGPA) || 0,
+    Subject: subjects,
+  };
+
+  try {
+    toast.info("Submitting...");
 
     const res = await fetch("/api/form", {
       method: "POST",
@@ -76,8 +81,31 @@ const FormPage = () => {
       body: JSON.stringify(payload),
     });
 
-    console.log(await res.json());
-  };
+    const data = await res.json();
+
+    if (!res.ok) throw new Error(data.message || "Submission failed");
+
+    toast.success("Student saved successfully");
+
+    // Optional: Reset form
+    setStudent({
+      StudentName: "",
+      Level: "Bachelors",
+      RegNo: "",
+      AcademicYear: "",
+      Semester: "",
+      Program: "",
+      TotalCreditHour: "",
+      SGPA: "",
+      DateOfIssue: new Date().toISOString().split("T")[0],
+    });
+    setSubjects([emptySubject()]);
+
+  } catch (err: any) {
+    toast.error("Error: " + err.message || "Something went wrong");
+  }
+};
+
 
   return (
     <div className="flex justify-center">
