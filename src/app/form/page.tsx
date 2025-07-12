@@ -101,9 +101,9 @@ const handleSubmit = async (e: React.FormEvent) => {
     });
     setSubjects([emptySubject()]);
 
-  } catch (err: any) {
-    toast.error("Error: " + err.message || "Something went wrong");
-  }
+  } catch (err) {
+  toast.error("Error: " + (err as Error).message || "Something went wrong");
+}
 };
 
 
