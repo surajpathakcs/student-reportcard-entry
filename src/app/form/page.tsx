@@ -14,8 +14,8 @@ const FormPage = () => {
   const emptySubject = (): Subject => ({
     Code: "",
     Name: "",
-    CreditHours: number,
-    GradePoint: number,
+    CreditHours: 0,
+    GradePoint: 0,
     Grade: "",
   });
 
