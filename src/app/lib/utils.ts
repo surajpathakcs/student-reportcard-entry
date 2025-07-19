@@ -1,29 +1,16 @@
-// lib/mongodb.ts
-
-import { MongoClient, Db } from "mongodb";
+import { MongoClient } from "mongodb";
 
 const uri = process.env.MONGO_URI!;
-const options = {};
+const client = new MongoClient(uri);
 
-let client: MongoClient;
-let db: Db;
+let clientPromise: Promise<MongoClient>;
 
-declare global {
-  var _mongoClient: MongoClient | undefined;
+if (!global._mongoClientPromise) {
+  global._mongoClientPromise = client.connect();
 }
-
-// For hot-reload in dev
-if (!global._mongoClient) {
-  global._mongoClient = new MongoClient(uri, options);
-}
-client = global._mongoClient;
+clientPromise = global._mongoClientPromise;
 
 export const connectToDB = async () => {
-  if (!client.topology || !client.topology.isConnected()) {
-    await client.connect();
-  }
-  if (!db) {
-    db = client.db("student_json_form_data");
-  }
-  return db;
+  const client = await clientPromise;
+  return client.db("student_json_form_data");
 };
