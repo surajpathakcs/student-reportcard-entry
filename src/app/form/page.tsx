@@ -14,7 +14,7 @@ const FormPage = () => {
   const emptySubject = (): Subject => ({
     Code: "",
     Name: "",
-    CreditHours: 0,
+    CreditHours: 3,
     GradePoint: 0,
     Grade: "",
   });
@@ -22,12 +22,12 @@ const FormPage = () => {
   const [student, setStudent] = useState({
     ImageName:"IMG_",
     StudentName: "",
-    Level: "Bachelors",
-    RegNo: "",
-    AcademicYear: "",
-    Semester: "",
-    Program: "",
-    TotalCreditHour: "",
+    Level: "Bachelor",
+    RegNo: "5-2-378-64-2022",
+    AcademicYear: "2080",
+    Semester: "Semester - ",
+    Program: "Bachelors Degree in Computer Science and Information Technology",
+    TotalCreditHour: "15",
     SGPA: "",
     DateOfIssue: new Date().toISOString().split("T")[0],
   });
@@ -65,12 +65,13 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   const payload = {
     ...student,
-    RegNo: parseInt(student.RegNo) || 0,
-    AcademicYear: parseInt(student.AcademicYear) || 0,
+    RegNo: student.RegNo.trim(), // leave as string
+    AcademicYear: student.AcademicYear.trim(), // leave as string
     TotalCreditHour: parseFloat(student.TotalCreditHour) || 0,
     SGPA: parseFloat(student.SGPA) || 0,
     Subject: subjects,
   };
+
 
   try {
     toast.info("Submitting...");
@@ -91,12 +92,12 @@ const handleSubmit = async (e: React.FormEvent) => {
     setStudent({
       ImageName:"IMG_",
       StudentName: "",
-      Level: "Bachelors",
-      RegNo: "",
-      AcademicYear: "",
-      Semester: "",
-      Program: "",
-      TotalCreditHour: "",
+      Level: "Bachelor",
+      RegNo: "5-2-478-64-2021",
+      AcademicYear: "2080",
+      Semester: "Semester - ",
+      Program: "Bachelors Degree in Computer Science and Information Technology",
+      TotalCreditHour: "15",
       SGPA: "",
       DateOfIssue: new Date().toISOString().split("T")[0],
     });
@@ -120,7 +121,9 @@ const handleSubmit = async (e: React.FormEvent) => {
                 id={key}
                 value={val}
                 onChange={handleStudentChange}
-                type={key.includes("Date") || key === "DateOfIssue" ? "date" : ["SGPA", "TotalCreditHour", "RegNo", "AcademicYear"].includes(key) ? "number" : "text"}
+                type={ key === "DateOfIssue" ? "date" : ["SGPA", "TotalCreditHour"].includes(key) ? "number" : "text"
+}
+
                 className="border px-3 py-2 rounded"
               />
             </div>
