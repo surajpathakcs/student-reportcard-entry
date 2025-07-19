@@ -20,6 +20,7 @@ const FormPage = () => {
   });
 
   const [student, setStudent] = useState({
+    ImageName:"IMG_",
     StudentName: "",
     Level: "Bachelors",
     RegNo: "",
@@ -88,6 +89,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     // Optional: Reset form
     setStudent({
+      ImageName:"IMG_",
       StudentName: "",
       Level: "Bachelors",
       RegNo: "",

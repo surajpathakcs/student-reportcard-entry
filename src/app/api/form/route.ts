@@ -1,17 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { connectToDB } from "@/app/lib/utils"; // your MongoDB util
+import { connectToDB } from "@/app/lib/utils"; 
 
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
     const {
-      StudentName, Level, RegNo, AcademicYear, Semester,
+      ImageName, StudentName, Level, RegNo, AcademicYear, Semester,
       Program, TotalCreditHour, SGPA, DateOfIssue, Subject
     } = body;
 
     const db = await connectToDB();
-    const result = await db.collection("student_json_files").insertOne({
+    const result = await db.collection("students_report").insertOne({
+      ImageName,
       StudentName,
       Level,
       RegNo,
@@ -28,6 +29,7 @@ export async function POST(req: NextRequest) {
 
   } catch (error) {
     console.error("Form POST Error:", error);
-    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 },
+    );
   }
 }
