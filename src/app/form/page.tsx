@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState } from "react";
 import { toast } from "react-toastify"; // make sure this is imported
@@ -24,7 +25,6 @@ const FormPage = () => {
     ImageName:"IMG_",
     StudentName: "",
     Level: "Bachelor",
-    RegNo:'',
     AcademicYear: "2080",
     Semester: "Semester - ",
     Program: "Bachelors Degree in Computer Science and Information Technology",
@@ -38,6 +38,10 @@ const FormPage = () => {
   const handleStudentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
+    if(name === "RegNo"){
+      setRegNo(value);
+      return;
+    }
     setStudent((prev) => ({
       ...prev,
       [name]: value,
@@ -103,8 +107,6 @@ const handleSubmit = async (e: React.FormEvent) => {
       DateOfIssue: new Date().toISOString().split("T")[0],
     });
     setSubjects([emptySubject()]);
-    
-    console.log(student.RegNo); // This should always reflect the latest typed value
 
   } catch (err) {
   toast.error("Error: " + (err as Error).message || "Something went wrong");
