@@ -12,7 +12,7 @@ interface Subject {
 
 const FormPage = () => {
   const emptySubject = (): Subject => ({
-    Code: "",
+    Code: "CSC",
     Name: "",
     CreditHours: 3,
     GradePoint: 0,
