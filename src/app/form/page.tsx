@@ -1,3 +1,4 @@
+
 "use client";
 import React, { useState } from "react";
 import { toast } from "react-toastify"; // make sure this is imported
@@ -11,8 +12,9 @@ interface Subject {
 }
 
 const FormPage = () => {
+  const [regNo , setRegNo ] = useState("5-2-378-64-2022");
   const emptySubject = (): Subject => ({
-    Code: "",
+    Code: "CSC",
     Name: "",
     CreditHours: 3,
     GradePoint: 0,
@@ -23,7 +25,6 @@ const FormPage = () => {
     ImageName:"IMG_",
     StudentName: "",
     Level: "Bachelor",
-    RegNo: "5-2-378-64-2022",
     AcademicYear: "2080",
     Semester: "Semester - ",
     Program: "Bachelors Degree in Computer Science and Information Technology",
@@ -36,6 +37,11 @@ const FormPage = () => {
 
   const handleStudentChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
+    if(name === "RegNo"){
+      setRegNo(value);
+      return;
+    }
     setStudent((prev) => ({
       ...prev,
       [name]: value,
@@ -65,7 +71,7 @@ const handleSubmit = async (e: React.FormEvent) => {
 
   const payload = {
     ...student,
-    RegNo: student.RegNo.trim(), // leave as string
+    RegNo: regNo.trim(), // leave as string
     AcademicYear: student.AcademicYear.trim(), // leave as string
     TotalCreditHour: parseFloat(student.TotalCreditHour) || 0,
     SGPA: parseFloat(student.SGPA) || 0,
@@ -93,7 +99,6 @@ const handleSubmit = async (e: React.FormEvent) => {
       ImageName:"IMG_",
       StudentName: "",
       Level: "Bachelor",
-      RegNo: "5-2-478-64-2021",
       AcademicYear: "2080",
       Semester: "Semester - ",
       Program: "Bachelors Degree in Computer Science and Information Technology",
@@ -113,7 +118,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     <div className="flex justify-center">
       <form onSubmit={handleSubmit} className="border rounded-xl p-6 w-full max-w-4xl space-y-6 bg-gray-200 m-2 shadow-md">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {Object.entries(student).map(([key, val]) => (
+          {Object.entries({...student,RegNo:regNo}).map(([key, val]) => (
             <div key={key} className="flex flex-col">
               <label htmlFor={key} className="mb-1 font-medium">{key}</label>
               <input
