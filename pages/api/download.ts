@@ -1,8 +1,6 @@
 import { connectToDB } from "@/app/lib/utils";
 import { NextApiRequest , NextApiResponse} from "next";
-import { Readable } from "stream";
-
-const archiver = require('archiver')
+import archiver from 'archiver'
 
 export default async function handler(req:NextApiRequest , res : NextApiResponse){
     try{
