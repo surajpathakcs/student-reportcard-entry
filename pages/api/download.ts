@@ -7,7 +7,8 @@ const archiver = require('archiver')
 export default async function handler(req:NextApiRequest , res : NextApiResponse){
     try{
         const db = await connectToDB();
-        const data = await db.collection("students_report").find({}).limit(10).toArray();
+        const data = await db.collection("students_report").find({}).toArray();
+        console.log("number of files ",data.length)
 
         res.setHeader("Content-Type" , "application/zip")
         res.setHeader("Content-Disposition" , "attachment; filename=reports.zip")
@@ -15,11 +16,11 @@ export default async function handler(req:NextApiRequest , res : NextApiResponse
         const archive = await archiver("zip", { zlib :{level : 9 } });
         archive.pipe(res)
         
-        for(const item of data){
-            const jsonContent = JSON.stringify(item,null,2)
-            archive.append(jsonContent,{name:item.ImageName+'.json'})
-            console.log("item : ", item)
-        };
+        for (const [index, item] of data.entries()) {
+            const jsonContent = JSON.stringify(item, null, 2);
+            const filename = `${item.ImageName || "file"}_${index}.json`; // fallback + index to ensure uniqueness
+            archive.append(jsonContent, { name: filename });
+        }
         archive.finalize();
 
 
