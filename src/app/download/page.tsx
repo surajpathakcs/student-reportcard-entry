@@ -2,19 +2,11 @@
 
 const Download = () => {
 
-  async function download() {
-    const response = await fetch("/api/download");
-    if (!response.ok) throw new Error("Response is not ok");
-    const data = await response.json();
-    console.log(data);
-  }
-
   return (
     <div>
-      <div className="m-2 border-2 border-purple-400">
-        <button className="button" onClick={download}>
-          Download all form
-        </button>
+      <div className="m-4 p-4">
+        <p className="text-xl m-4">Click this button below to download all students report</p>
+        <a href="/api/download" className="m-4 px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow hover:bg-purple-600 transition-colors duration-200">Download all files</a>
       </div>
     </div>
   );
